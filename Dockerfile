@@ -33,6 +33,21 @@ VOLUME /var/lib/docker # Creates api text box
  RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
  RUN curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
  RUN apt-get install --yes nodejs mocha chai
+########################## install kubectl ###############################################
+RUN apt-get update && sudo apt-get install -y apt-transport-https gnupg2
+RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+RUN add-apt-repository "deb  [arch=amd64] https://apt.kubernetes.io/ kubernetes-xenial main" 
+RUN apt-get update
+RUN apt-get install -y kubectl
+###
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+RUN chmod 700 get_helm.sh
+RUN ./get_helm.sh
+
+#########################
+RUN curl -sL https://github.com/digitalocean/doctl/releases/download/v1.43.0/doctl-1.43.0-linux-amd64.tar.gz | tar -xzv
+RUN chmod +x doctl
+RUN mv ./doctl /usr/local/bin
 
 #RUN sudo wrapdocker
 # CMD ["/bin/bash","wrapdocker"]
